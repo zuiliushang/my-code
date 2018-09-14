@@ -236,8 +236,22 @@ public class IOMain implements Serializable{
 	
 	
 	@Test
-	public void testRandomAccessFile() throws FileNotFoundException {
-		RandomAccessFile randomAccessFile = new RandomAccessFile(new File("G://ByteBufferSimple5G.txt"), "rw");
+	public void testRandomAccessFile() throws IOException {
+		RandomAccessFile randomAccessFile = new RandomAccessFile(new File("G://randomAccessFile.txt"), "rw");
+		String cn = "中国";
+		randomAccessFile.write(cn.getBytes());
+		cn = "测试";
+		randomAccessFile.write(cn.getBytes());
+		byte[] buffer = new byte[64];
+		int length = 0;
+		StringBuffer sb = new StringBuffer();
+		randomAccessFile.seek("中国".getBytes().length);
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		while((length = randomAccessFile.read(buffer))!=-1) {
+			out.write(buffer, 0, length);
+		}
+		out.flush();
+		System.out.println(new String(out.toByteArray()));
 	}
 	
 	
